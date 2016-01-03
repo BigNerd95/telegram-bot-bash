@@ -18,11 +18,11 @@ UPD_URL=$URL'/getUpdates?offset='
 OFFSET=0
 
 send_message() {
-	res=$(curl "$MSG_URL" -F "chat_id=$1" -F "text=$2")
+	res=$(curl -s "$MSG_URL" -F "chat_id=$1" -F "text=$2")
 }
 
 send_photo() {
-	res=$(curl "$PHO_URL" -F "chat_id=$1" -F "photo=@$2")
+	res=$(curl -s "$PHO_URL" -F "chat_id=$1" -F "photo=@$2")
 }
 
 process_client() {
@@ -38,7 +38,7 @@ process_client() {
 
 while true; do {
 
-	res=$(curl $UPD_URL$OFFSET)
+	res=$(curl -s $UPD_URL$OFFSET)
 
 	TARGET=$(echo $res | ./JSON.sh | egrep '\["result",0,"message","chat","id"\]' | cut -f 2)
 	OFFSET=$(echo $res | ./JSON.sh | egrep '\["result",0,"update_id"\]' | cut -f 2)
